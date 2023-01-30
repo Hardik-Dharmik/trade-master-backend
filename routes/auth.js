@@ -101,6 +101,7 @@ router.put("/logout", (req, res) => {
 router.post("/getuser", fetchUser, async (req, res) => {
   try {
     let userid = req.user.id;
+    console.log(req.user);
     const user = await User.findById(userid).select("-password");
     res.send(user);
   } catch (error) {

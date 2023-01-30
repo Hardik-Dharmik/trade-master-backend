@@ -19,15 +19,15 @@ const TransactionSchema = new Schema({
     required: true,
   },
   volume: {
-    type: Integer,
+    type: Number,
     required: true,
   },
   boughtAt: {
-    type: Double,
+    type: mongoose.Types.Decimal128,
     required: true,
   },
   soldAt: {
-    type: Double,
+    type: mongoose.Types.Decimal128,
     default: 0,
   },
   date: {
@@ -36,5 +36,5 @@ const TransactionSchema = new Schema({
   },
 });
 
-const Transaction = mongoose.model("transaction", Transaction);
+const Transaction = mongoose.model("transaction", TransactionSchema);
 module.exports = Transaction;

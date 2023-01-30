@@ -17,6 +17,7 @@ const User = require("./models/User");
 connectToMongo();
 
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/transaction", require("./routes/transactions"));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
