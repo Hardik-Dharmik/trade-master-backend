@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
 
     success = true;
 
-    res.json({ success, authtoken });
+    res.json({ success, authtoken, username: user.name });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");
@@ -85,16 +85,19 @@ router.post("/login", async (req, res) => {
 // LOGOUT
 router.put("/logout", (req, res) => {
   const authHeader = req.headers["AUTH_TOKEN"];
-
-  if (!authHeader) res.send({ msg: "Error" });
+  console.log(authHeader);
+  if (!authHeader) return res.send({ msg: "Error" });
+  let msg = "";
 
   jwt.sign(authHeader, "", { expiresIn: 1 }, (logout, err) => {
     if (logout) {
-      res.send({ msg: "You have been Logged Out" });
+      msg = "You have been Logged Out";
     } else {
-      res.send({ msg: "Error" });
+      msg = "Error";
     }
   });
+
+  return res.send({ msg: msg });
 });
 
 // GET USER INFO
