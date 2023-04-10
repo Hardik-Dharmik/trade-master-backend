@@ -6,9 +6,9 @@ const WatchListSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  stockId: {
-    type: String,
-    required: true,
+  stockIds: {
+    type: Array,
+    default: [],
   },
   date: {
     type: Date,

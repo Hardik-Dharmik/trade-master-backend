@@ -30,6 +30,7 @@ connectToMongo();
 
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/transaction", require("./routes/transactions"));
+app.use("/api/watchlist", require("./routes/watchlist"));
 
 app.get("/index", async (req, res) => {
   res.json({ msg: "Hardik" });
