@@ -12,11 +12,11 @@ const WatchList = require("../models/WatchList");
 const fetchUser = require("../middleware/fetchUser");
 
 // GET WatchList
-router.get("/getWatchlist", fetchUser, async (req, res) => {
+router.post("/getWatchlist", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
-
     let watchlist = await WatchList.findOne({ userId: req.user.id });
+    console.log(userId, watchlist);
 
     if (!watchlist) {
       watchlist = await WatchList.create({
@@ -37,11 +37,8 @@ router.post("/addToWatchlist", fetchUser, async (req, res) => {
     const userId = req.user.id,
       stockId = req.body.stockId;
 
-    // console.log(stockId, userId);
+    console.log(stockId, userId);
     console.log(req.user);
-    if (stockId === null) {
-      return res.json({ error: "Invalid stock ID" });
-    }
 
     const watchlist = await WatchList.findOne({ userId: req.user.id });
     console.log(watchlist);
@@ -64,10 +61,6 @@ router.post("/removeFromWatchlist", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id,
       stockId = req.body.stockId;
-
-    if (stockId === null) {
-      return res.json({ error: "Invalid stock ID" });
-    }
 
     let watchlist = await WatchList.findOne({ userId: req.user.id });
 
