@@ -44,6 +44,7 @@ app.get("/stock/:stockID", async (req, res) => {
     {
       mode: "no-cors",
       headers: {
+        "Access-Control-Allow-Origin": "*",
         Cookie:
           "B=3n9p3uhhf9pl7&b=3&s=ad; A1=d=AQABBKfm9GICEDpxu-DzUwmKn3iwifQjpzsFEgEBCAHNXGSGZFlQb2UB_eMBAAcIp-b0YvQjpzs&S=AQAAAkSx81FqzxuKeUlKINSeYNs; A3=d=AQABBKfm9GICEDpxu-DzUwmKn3iwifQjpzsFEgEBCAHNXGSGZFlQb2UB_eMBAAcIp-b0YvQjpzs&S=AQAAAkSx81FqzxuKeUlKINSeYNs; gam_id=y-mcMX.cdE2uIo_WJcPO9C.56RwbMGzYC1~A; tbla_id=5beeaaa9-ca3a-46e8-8aa9-73684d09e9dc-tuct9ee6c25; GUC=AQEBCAFkXM1khkIemwR1; A1S=d=AQABBKfm9GICEDpxu-DzUwmKn3iwifQjpzsFEgEBCAHNXGSGZFlQb2UB_eMBAAcIp-b0YvQjpzs&S=AQAAAkSx81FqzxuKeUlKINSeYNs&j=WORLD; cmp=t=1685010512&j=0&u=1---; PRF=t%3DTATASTEEL.NS%252B%255EFTSE%252BRR.L%252BIAG.L%252BEDV.L%252BTATASTEEL.BO%252BGLEN.L%252BFRAS.L%252BAAPL%252BMSFT.NE%252BTCS.NS%252BADANIENT.BO%252BBHARTIARTL.NS%252BWIPRO.NS%252BASIANPAINT.NS%26qct%3Dline%26newChartbetateaser%3D1",
       },
