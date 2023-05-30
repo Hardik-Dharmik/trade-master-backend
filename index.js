@@ -39,7 +39,7 @@ app.get("/index", async (req, res) => {
 
 app.get("/stock/:stockID", async (req, res) => {
   const stockID = req.params.stockID;
-  console.log(stockID);
+
   let response = await fetch(
     `https://query2.finance.yahoo.com/v7/finance/quote?formatted=true&crumb=MFOLNtDyW58&lang=en-US&region=IN&symbols=${stockID}&fields=messageBoardId%2ClongName%2CshortName%2CmarketCap%2CunderlyingSymbol%2CunderlyingExchangeSymbol%2CheadSymbolAsString%2CregularMarketPrice%2CregularMarketChange%2CregularMarketChangePercent%2CregularMarketVolume%2Cuuid%2CregularMarketOpen%2CfiftyTwoWeekLow%2CfiftyTwoWeekHigh%2CtoCurrency%2CfromCurrency%2CtoExchange%2CfromExchange%2CcorporateActions&corsDomain=finance.yahoo.com`,
     {
@@ -53,13 +53,13 @@ app.get("/stock/:stockID", async (req, res) => {
   );
 
   response = await response.json();
-  console.log(response);
+  // console.log(response);
   res.json({ response: response.quoteResponse });
 });
 
 app.get("/history/:stockID/:interval/:range", async (req, res) => {
   const { range, interval, stockID } = req.params;
-  console.log(req.params);
+  // console.log(req.params);
   let response = await fetch(
     `https://query1.finance.yahoo.com/v8/finance/chart/${stockID}?region=US&lang=en-US&includePrePost=false&interval=${interval}&useYfid=true&range=${range}&corsDomain=finance.yahoo.com&.tsrc=finance`
   );

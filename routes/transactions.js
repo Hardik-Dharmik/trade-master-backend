@@ -7,13 +7,30 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const User = require("../models/User");
 const Transaction = require("../models/Transactions");
+const Holding = require("../models/Holdings");
 
 const fetchUser = require("../middleware/fetchUser");
 
 router.get("/getTransactions", fetchUser, async (req, res) => {
   try {
-    const transactions = await Transaction.find({ userId: req.user.id });
-    res.json({ transactions, user: req.user });
+    const holdings = await Holding.find({ userId: req.user.id });
+    const userId = req.user.id;
+
+    let stockIds = [];
+
+    for (let i = 0; i < holdings.length; i++) {
+      stockIds.push(holdings[i].stockId);
+    }
+
+    const user = await User.findById(userId).select("-password");
+    console.log(user);
+
+    const balanceInfo = {
+      totalAmountInvested: 1000000 - user.balance,
+      remainingBal: user.balance,
+    };
+
+    res.json({ holdings, stockIds, balanceInfo, user: req.user });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Some Error occured");
@@ -22,11 +39,17 @@ router.get("/getTransactions", fetchUser, async (req, res) => {
 
 router.post("/buy", fetchUser, async (req, res) => {
   try {
-    const userId = req.user.id,
-      volume = req.body.volume,
-      boughtAt = req.body.boughtAt;
+    const userId = req.user.id;
+
+    const purchaseInfo = req.body.purchaseInfo;
+
+    const { stockId, stockNum, price } = purchaseInfo;
+
+    const volume = stockNum,
+      boughtAt = price;
 
     const user = await User.findById(userId).select("-password");
+
     const totalAmount = volume * boughtAt,
       userAmount = user.balance;
 
@@ -36,20 +59,27 @@ router.post("/buy", fetchUser, async (req, res) => {
 
     user.balance = userAmount - totalAmount;
     user.save();
-    console.log(user);
 
-    let newTransaction = await Transaction.create({
+    // let newTransaction = await Transaction.create({
+    //   userId,
+    //   type: "BUY",
+    //   isSettles: false,
+    //   stockId: stockId,
+    //   volume,
+    //   boughtAt,
+    //   soldAt: 0,
+    // });
+
+    let newHolding = await Holding.create({
       userId,
-      type: "BUY",
-      isSettles: false,
-      stockId: req.body.stockId,
+      stockId,
       volume,
       boughtAt,
-      soldAt: 0,
+      totalAmount,
     });
 
-    console.log(newTransaction);
-    res.json({ newTransaction });
+    console.log(newHolding);
+    res.json({ newHolding });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Some Error occured");
