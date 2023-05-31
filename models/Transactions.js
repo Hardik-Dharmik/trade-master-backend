@@ -6,14 +6,6 @@ const TransactionSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
-  type: {
-    type: String,
-    required: true,
-  },
-  isSettled: {
-    type: Boolean,
-    default: false,
-  },
   stockId: {
     type: String,
     required: true,
@@ -27,6 +19,14 @@ const TransactionSchema = new Schema({
     required: true,
   },
   soldAt: {
+    type: mongoose.Types.Decimal128,
+    default: 0,
+  },
+  profitLoss: {
+    type: mongoose.Types.Decimal128,
+    default: 0,
+  },
+  profitLossPercent: {
     type: mongoose.Types.Decimal128,
     default: 0,
   },
