@@ -39,6 +39,21 @@ router.get("/getTransactions", fetchUser, async (req, res) => {
   }
 });
 
+router.get("/getAllTransactions", fetchUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const transactions = await Transaction.find({ userId: userId })
+
+    transactions.sort((a, b) => b.date - a.date)
+
+    res.json({ transactions, user: req.user });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Some Error occured");
+  }
+});
+
 router.post("/buy", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -68,6 +83,16 @@ router.post("/buy", fetchUser, async (req, res) => {
       volume,
       boughtAt,
       totalAmount,
+    });
+
+    let newTransaction = await Transaction.create({
+      userId,
+      stockId,
+      volume,
+      boughtAt,
+      soldAt: 0,
+      profitLoss: 0,
+      profitLossPercent: 0
     });
 
     // console.log(newHolding);
